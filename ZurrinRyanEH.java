@@ -1,526 +1,445 @@
 /**
-*@filename ZurrinRyanPS.java
+*@filename ZurrinRyanEH.java
 *@author Ryan Zurrin
-*@assignment Chapter 11 program
-*@due_date  Thursday, November 26, 2020, 3:00 PM
-*@description  to make a program that allows a user to either take or not take a
-* survey based on how they reply. This program is to use proper exception
-* handling techniques to prevent from crashing or stopping mid run. It should
-* allow for recovery and the continuation of operations no matter what.
+*@assignment Chapter  Program "Rational Numbers"
+*@due_date Thursday, November 5, 2020, 3:00 PM
+*@description  this is a class for performing arithmetic with fraction numbers.
 */
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Scanner;
-import java.util.InputMismatchException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class ZurrinRyanEH {
+public class ZurrinRyanEH {   
+    Employee employee;
+    CommissionEmployee commEmployee;
+      
+    ZurrinRyanEH(){
+        employee = new Employee();
+        commEmployee = new CommissionEmployee();       
+    }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-
-        CustomerSurvey forGreg = new CustomerSurvey();
-        forGreg.runSurvey();
-        /*
-        CustomerSurvey[] results = new CustomerSurvey[]{
-			new CustomerSurvey(34, "states.dat", "ma","01201"),
-			new CustomerSurvey(515, "states.dat", "ma", "12345" ),
-			new CustomerSurvey(87, "stfates.dat", "ndY", "03375" ),
-			new CustomerSurvey(55, "staftes.dat", "ca", "jtyde" ),
-			new CustomerSurvey(17, "states.dat", "RI", "12345" ),
-		};
-		for (CustomerSurvey result : results) {
-		            result.printData();
-		 }
-		 */
-
-
-    }//end method main
-
-}//end of class ZurrinRyanEH
-
- class CustomerSurvey {
-     private Path path;
-     private String[][] stateInfo;
-     private int age;
-     private String zipCode;
-     private String state;
-
-     /**
-      * no argument constructor
-      */
-     CustomerSurvey() {
-         age = 16;
-         zipCode = "55555";
-         state = "US";
-         stateInfo  = new String[52][2];
-         for(int i = 0; i < stateInfo.length; i++){
-                 for(int j = 0; j < stateInfo[i].length; j++){
-                     stateInfo[i][j] = "";
-                 }//end inner for loop
-             }//end for loop
-
-     }//end no argument constructor
-
-     /**
-      * overloaded constructor
-      * @param _age is the age of customer taking survey
-      * @param fullFilePath is the path to file to search
-      * @param _state should be the state abbreviation
-      * @param _zip is the zip-code of customer
-      */
-     CustomerSurvey(int _age, String fullFilePath, String _state, String _zip){
-         stateInfo  = new String[52][2];
-
-         for(int i = 0; i < stateInfo.length; i++){
-             for(int j = 0; j < stateInfo[i].length; j++){
-                 stateInfo[i][j] = "";
-             }//end inner for loop
-         }//end for loop
-         try {
-
-             age = age(_age);
-             Path path = file(fullFilePath);
-             state = state(_state);
-             zipCode = zip(_zip);
-
-         } catch (FileNotFoundException ex) {
-             Logger.getLogger(CustomerSurvey.class.getName())
-                     .log(Level.SEVERE, null, ex);
-         }
-      }//end overloaded constructor
-
-     /**
-      * Method to display the survey greeting and rules
-      */
-     private void greeting(){
-         System.out.println("\nWelcome to AQUAS, the Annual Quality User"
-                 + " Assurance Survey.\nPlease enter your age if you wish to"
-                 + " participate.\nEntering anything but an age will"
-                 + " be regarded\nas your choice to opt out of this survey\n");
-     }
-     /**
-      * method to give thanks and encourage support
-      */
-     private void giveThanks(){
-         System.out.println("Your participation in AQUAS is immensly"
-                 + " appreciated.\nThis annual surveys allows us to better "
-                 + "serve you.\n");
-     }//end method giveThanks
-
-     /**
-      * method to set the age variable
-      */
-     private void setAge(final int _age) throws IllegalArgumentException{
-         if(age >= 0){
-             age = _age;
-         }
-         else
-             throw new IllegalArgumentException("age cannot be below 0");
-     }//end method setAge
-     /**
-      * method to set the zip code variable
-      */
-     private void setZipCode(final String _zip ){
-         zipCode = _zip;
-     }//end nmethod setZipCode
-
-     /**
-      * method to set the state variable
-      */
-     private void setState(String _state){
-         state = _state;
-     }//end method setState
-
-     /**
-      * returns the value stored in age
-      */
-     public int getAge() {return age;}//end method getAge
-
-     /**
-      * returns the value stored in zipCode
-      */
-     public String getZipCode(){return zipCode;}//end of method getZipCode
-
-     /**
-      * returns the value stored in state
-      */
-     public String getState(){return state;}//end of method getState
-
-     /**
-      * returns the stateInfo array data
-      */
-     public String[][] getStateArray(){return stateInfo;}
-
-     @Override
-     public String toString(){
-         return String.format("%s: %d%n%s: %s%n%s: %s%n",
-                 "age     ", this.getAge(),
-                 "state   ", this.getState(),
-                 "zip-code", this.getZipCode());
-     }//end method toString
-
-     /**
-      * display method for printing out the customer data
-      */
-     public void printData(){
-         System.out.println("\n"+this.toString());
-     }
-
-     /**
-      * method for displaying the state Info array
-      */
-     public void printStateInfoArray(){
-         for (int row = 0; row < stateInfo.length; row++){
-             for (int col = 0; col < stateInfo[row].length; col++){
-                 System.out.printf("%s ", stateInfo[row][col]);
-              }//end inner for loop
-
-          }//end outer for loop
-     }//end method printStateInfoArray
-
-     /**
-      * method to print out arrays
-      */
-     public void printArray(String[] arr){
-         for(int i = 0; i < arr.length; i++){
-             System.out.printf("%s ", arr[i]);
-            }
-     }//end method printArray
-
-     /**
-      * method to get the users age and determine if they want to
-      * participate in the survey or not
-      * @throws InputMismatchException
-      */
-     public void agePrompt() throws InputMismatchException{
-         Scanner input = new Scanner(System.in);
-         int sampleAge = 0;
-         boolean flag = false;
-         try{
-             do{
-                 flag = false;
-                 System.out.print("\nPlease enter your age to continue\n>> ");
-                 sampleAge = input.nextInt();
-                 if(sampleAge <= 15 || sampleAge > 130){
-                     System.out.println("You entered a invalid age" +
-                             " please try re-typing a age between 16 and 130");
-                     flag = true;
-                 }//end if
-             }while(flag == true);
-          }//end try
-         catch(InputMismatchException e){
-             System.out.println("\nYou have opted out of the survey. If you"+
-                     " change\nyour mind and wish to participate, you can do\n"+
-                     "so any time. Simply run this program and enter your" +
-                     " age.\nThank you and goodbye\n");
-            System.exit(0);
-            }//end catch
-            this.setAge(sampleAge);
-
-      }//end method agePrompt
-
-      /**
-      * method to validate a user age that is entered through the overloaded
-      * constructor
-      * @throws InputMismatchException
-      */
-     private int age(int val) throws InputMismatchException{
-         Scanner input = new Scanner(System.in);
-         boolean flag = false;
-         try{
-             while(val <= 15 || val > 130){
-                 System.out.println("The age entered was invalid please\n"
-                         + "please try re-typing a age between 16 and 130\n"
-                         + "if you wish to participate in survey");
-                     val = input.nextInt();
-                 }//end while
-         }//end try
-         catch(InputMismatchException e){
-             System.out.println("\nYou have opted out of the survey. If you"+
-                     " change\nyour mind and wish to participate, you can do\n"+
-                     "so any time. Simply run this program and enter your" +
-                     " age.\nThank you and goodbye\n");
-         }//end catch
-         return val;
-        }//end method age
-
-     /**
-      * method to prompt the survey take to enter a valid file name
-      * @throws IOException
-      */
-     public void filePrompt() throws IOException{
-         Scanner input = new Scanner(System.in);
-        // String pick = "";
-         boolean flag;
-         do{
-            flag = false;
-            try{
-               System.out.print("Enter a full file or directory name\n>> ");
-               Path path = Paths.get(input.nextLine());
-
-               File fileReader = new File(path.toString());
-
-               Scanner sc = new Scanner(fileReader);
-               int row, col;
-
-               for(row = 0; row < stateInfo.length; row++){
-                   String line = sc.nextLine();
-                   String[] temp = line.split(":");
-
-                   for(col = 0; col < stateInfo[row].length;col++){
-                       stateInfo[row][col] = temp[col];
-                   }//end inner for loop
-               }//end outer for loop
-            }//end try
-            catch(FileNotFoundException e){
-                flag = true;
-                System.out.println(e.getLocalizedMessage());
-            }//end catch
-         }while(flag == true);
-
-     }//end method filePrompt
-
-     /**
-      * method to prompt the survey take to enter a valid file name
-      * @param p is the Path object being tested
-      * @throws IOException
-      */
-     private Path file(String p) throws FileNotFoundException{
-         Scanner input = new Scanner(System.in);
-         Path test = Paths.get(p);
-         boolean flag;
-         int count = 0;
-         do{
-            flag = false;
-            try{
-               if(count > 0){
-                   System.out.print("Enter a full file or directory name\n>> ");
-                   test = Paths.get(input.nextLine());
-               }//end if statement
-
-               File fileReader = new File(test.toString());
-
-               Scanner sc = new Scanner(fileReader);
-               int row, col;
-
-               for(row = 0; row < stateInfo.length; row++){
-                   String line = sc.nextLine();
-                   String[] temp = line.split(":");
-
-                   for(col = 0; col < stateInfo[row].length;col++){
-                       stateInfo[row][col] = temp[col];
-                   }//end inner for loop
-               }//end outer for loop
-
-            }catch(FileNotFoundException e){
-                flag = true;
-                count = count + 1;
-                System.out.println(e.getLocalizedMessage());
-            }//end catch FileNotFoundException
-         }while(flag == true);
-         return test;
-     }//end method filePrompt
-
-
-     /**
-      * method for prompting the survey taker for the state abbreviation
-      * @throws InputMismatchException,IllegalArgumentException
-      */
-     public void statePrompt()
-             throws InputMismatchException,IllegalArgumentException{
-
-         Scanner input = new Scanner(System.in);
-         boolean flag;
-         String response = "";
-         do{
-            flag = false;
-            try{
-               System.out.print(
-                  "What is the two letter abbrieviation of your state?\n>>" );
-               response = input.nextLine().toLowerCase();
-
-               if(findStateName(response) != "error"){
-                 setState(findStateName(response));
-               }else{
-                 throw new IllegalArgumentException("State abreveation "
-                         + "not found");
-               }
-            }catch(InputMismatchException e){
-                flag = true;
-                System.out.println(e.getLocalizedMessage());
-            }//end InputMismatchException
-            catch(IllegalArgumentException e){
-                flag = true;
-                 System.out.println(e.getLocalizedMessage());
-            }//end catch IllegalArgumentException
-        }while(flag == true);
-      }//end method statePrompt
-
-
-     /**
-      * method for prompting the survey taker for the state abbreviation
-      * @throws InputMismatchException,IllegalArgumentException
-      */
-     public String state(String stateAbr)
-             throws InputMismatchException,IllegalArgumentException{
-         Scanner input = new Scanner(System.in);
-         boolean flag;
-         int count = 0;
-         String temp = "";
-         do{
-            flag = false;
-            try{
-                if(count>0){
-                    System.out.print(
-                            "What is the two letter abbrieviation "
-                                    + "of your state?\n>>" );
-                    stateAbr = input.nextLine().toLowerCase();
-                }
-
-                if(findStateName(stateAbr) != "error"){
-                  temp = findStateName(stateAbr);
-                }//end if
-                else{
-                  throw new IllegalArgumentException("State abreveation "
-                          + "not found");
-                }//end else
-            }catch(InputMismatchException e){
-                flag = true;
-                count += 1;
-                System.out.println(e.getLocalizedMessage());
-            }//end InputMismatchException
-            catch(IllegalArgumentException e){
-                flag = true;
-                count +=1;
-                 System.out.println(e.getLocalizedMessage());
-            }//end catch IllegalArgumentException
-
-
-        }while(flag == true);
-        return temp;
-      }//end method statePrompt
-
-
-
-     /**
-      * method that prompts the user to enter a zip code
-      * @throws IllegalArgumentException
-      */
-     public void zipPrompt()
-             throws IllegalArgumentException {
-          Scanner input = new Scanner(System.in);
-          String response = "";
-          boolean flag;
-
-          do{
-              flag = false;
-              try{
-                  System.out.print(
-                  "Please add your five digit zip code now\n>>" );
-                  response = input.nextLine().trim();
-                  if(response.length() == 5 && response.matches("[0-9]{5}")){
-                      this.setZipCode(response);
-                      break;
-                   }// end if
-                  else{
-                      throw new IllegalArgumentException("You entered an "
-                              + "invalid zip code please");
-                  }//end else statement
-              }//end try
-              catch(IllegalArgumentException e){
-                  flag = true;
-                  System.out.println(e.getLocalizedMessage());
-              }//end InputMismatchException
-          }while(flag == true);
-     }//end method zipPrompt
-
-      /**
-      * method that prompts the user to enter a zip code
-      * @param z is the zip code as a string of integral values if it is not a
-      * integral an exception is thrown and the survey taker is given the
-      * chance to recover with a correct 5 digit integer which is excepted as a
-      * string and verified
-      * @throws IllegalArgumentException
-      */
-     public String zip(String z)
-             throws IllegalArgumentException {
-          Scanner input = new Scanner(System.in);
-          boolean flag;
-          int count = 0;
-          do{
-              flag = false;
-              try{
-                  if(count>0){
-                      System.out.print("Please add your five digit zip code"
-                              + " now\n>>" );
-                  z = input.nextLine().trim();
-                  }
-
-                  if(z.length() == 5 && z.matches("[0-9]{5}")){
-                      return z;
-                   }// end if
-                  else{
-                      throw new IllegalArgumentException("You entered an "
-                              + "invalid zip code please");
-                  }
-              }
-              catch(IllegalArgumentException e){
-                  flag = true;
-                  count += 1;
-                  System.out.println(e.getLocalizedMessage());
-              }//end InputMismatchException
-          }while(flag == true);
-          return z;
-     }//end method zipPrompt
-
-     /**
-      * method to search the stateInfo array for a matching state
-      * @param stateAbrv is the two letter abbreviation of a survey takers state
-      * @return "state name" or "error" as strings
-      */
-     private String findStateName(final String stateAbrv){
-         String fullState = "";
-         String error = "error";
-         for(int row = 0; row < stateInfo.length; row++){
-                for(int col = 0; col < stateInfo[row].length;col++){
-                   if(stateInfo[row][col].equalsIgnoreCase(stateAbrv)){
-                       fullState = stateInfo[row][col+1];
-                       return fullState;
-                   }
-                }//end inner for loop
-            }//end outer for loop
-         return error;
-     }//end method findStateName
-
-    /**
-     * Method to run the survey sequence automatically
+    public static void main(String args[]) {       
+        char repeat = 'y';
+        int pick = 0;
+        //String picked ="y";
+        ZurrinRyanEH employeeFactory = new ZurrinRyanEH();
+       do{
+           pick = getChoice();
+           if(pick == 1){
+              Employee.employeeList.
+                      add(employeeFactory.employee.getUserInputForEmployee());
+           }else if(pick == 2){
+               CommissionEmployee.commissionEmployeeList.
+                       add(employeeFactory.
+                               commEmployee.getUserInputForEmployee());
+           }
+          System.out.print("to add another employee press Y or y now\n"+
+                  "anything else will print data to screen and exit: ");
+          repeat = employeeFactory.employee.input.next().charAt(0);
+           
+       }while(repeat == 'y' || repeat == 'Y');
+       Employee.printEmployeeList(Employee.employeeList);
+       CommissionEmployee.printCommissionList(
+               CommissionEmployee.commissionEmployeeList);
+    }
+    
+        /**
+     * Method for checking that a user is entering a number and not a letter
+     * @@param input is the user input
      */
-     public void runSurvey(){
-         try {
-             this.greeting();
-             this.agePrompt();
-             this.filePrompt();
-             this.statePrompt();
-             this.zipPrompt();
-             this.printData();
-             this.giveThanks();
-         }//end try
-         catch (Exception ex) {
-             System.out.print(ex.getLocalizedMessage());
-         }//end catch
-         finally{
-			 //I know it is not directly related to the first catch like it
-			 //was specified but that block has closed already, this was the
-			 //best i could figure out
-             System.out.println("Thank You for participating in our survey");
-         }
-     }//end method runSurvey
+    public static int getChoice(){   
+        int temp = 1;
+        boolean eFlag = false;
+        do{
+            try{
+                System.out.print("What kind of employee do you wish to add?\n"+
+                   "1 for regular employee, 2 for commission employee: ");
+                temp = Employee.input.nextInt();
+                while(temp < 1 || temp > 2)
+                {
+                    System.out.print("Enter integer 1 or 2 ");
+                    temp = Employee.input.nextInt();
+                }                    
+                }catch(InputMismatchException e)
+                {
+                    System.out.println("Invalid Input..Pls 1 or 2.");
+                    while(!Employee.input.hasNextInt())
+                    {
+			String in = Employee.input.next();
+			System.out.print("That was not a number, try again\n>>");
+                        eFlag = true;
+                        continue;
+                    }
+                    temp = Employee.input.nextInt();
+                    eFlag=false;                
+                }
+            }while(eFlag);
+        return temp;
+  
+    }
+}//end class ZurrinRyanEH
+class Employee {
+    /**
+     *  Scanner for taking user input
+     */
+    public static Scanner input = new Scanner(System.in);
+    
+    /**
+     * instance variable for the first name of a employee
+     */
+    private String firstName;
+    
+    /**
+     * instance variable for the last name of an employee
+     */
+    private String lastName;
+    
+    /**
+     * instance variable for the social security number of an employee 
+     * format as follows: "AAA-GG-SSSS", if not entered in this format you will 
+     * be prompted to reenter
+     */
+    private String socialSecurityNumber;
+    
+    /**
+     * an array list for storing employees
+     */
+    public static ArrayList<Employee> employeeList = new ArrayList<Employee>();
+    
+    /**
+     * no argument constructor to set default values when non are given. ensures
+     * object creation.
+     */
+    Employee(){
+        firstName = "John";
+        lastName = "doe";
+        socialSecurityNumber = "001-01-0001";
+        //employeeList = new ArrayList<Employee>();
+    }
+    
+    /**
+     * 3 argument constructor for setting employee information when creating the 
+     * object. 
+     * @param fn is the first name of the employee
+     * @param ln is the last name of the employee
+     * @param ssn is the social security number of the employee
+     */
+    Employee(String fn, String ln, String ssn){
+        //employeeList = new ArrayList<Employee>();
+        firstName = fn;
+        lastName = ln;
+        while(validateSocialSecurityNumber(ssn)== false){            
+            ssn = fixSSN(ssn);
+        }        
+        socialSecurityNumber = ssn;
+    }
+    
+    /**
+     * method for changing the first name
+     * @param fn is a string or string literal of the first name
+     */
+    public void setFirstName(final String fn){
+        this.firstName = fn;
+    }
+    
+    /**
+     * method for changing the last name
+     * @param ln is a string or string literal of the last name
+     */
+    public void setLastName(final String ln){
+        this.lastName = ln;
+    } 
+    
+     /**
+     * method for setting the social security number of an employee
+     * @param ssn is a 9 digit integer value
+     * must be entered as a string or string literal in the following format:
+     * "AAA-GG-SSS" example "555-55-5555"
+     */
+    public void setSocialSecurityNumber(String ssn){    
+        while(validateSocialSecurityNumber(ssn) == false) {
+          ssn = this.fixSSN(ssn);
+        }
+        this.socialSecurityNumber = ssn;
 
- }// end class Customers
+    }// end method setSocialSecurityNumber()
+    
+   
+    
+    public String getFirstName(){return firstName;}
+    public String getLastName() {return lastName;}
+    public String getSocialSecurityNumber(){return socialSecurityNumber;}
+    
+    public void printEmployeeInfo(){
+        System.out.printf(toString());
+    }// end method printEmployeeInfo
+    
+    /**
+     * Method to print out the employees stored in a list
+     * @param list is the Array list you want to print
+     */
+    public static void printEmployeeList(ArrayList<Employee> list){
+    for(Employee elem : list){
+        System.out.println(elem+"\n");
+    }//end method printList
+}
+    @Override
+    public String toString(){
+         return String.format("%n%s: %s %s%n%s: %s%n",     
+         "employee", getFirstName(), getLastName(),                    
+         "social security number", getSocialSecurityNumber());
+    }
+    
+    /**
+     * method for validating the social security number of an employee
+     * @param ssn is a 9 digit integer value
+     * @throws IllegalArgumentException
+     * @returns true or false
+     */
+    private boolean validateSocialSecurityNumber(final String ssn){       
+        String regex =
+                "^(?!666|000|9\\d{2})\\d{3}-(?!00)\\d{2}-(?!0{4})\\d{4}$";
+        Pattern pattern = Pattern.compile(regex);
+        if (ssn == null) {
+            return false;
+        }
+        Matcher m = pattern.matcher(ssn);
+
+        return m.matches();
+    }
+    
+    /**
+     * Fixer method that is called to allow a user the chance to fix any bad 
+     * data that was not being validated.
+     * @param ssn is the 9 digit social security that is entered as a string
+     * Return the new string with fixed social security number
+     */
+    private String fixSSN(String ssn){
+        System.out.print("You entered a bad SSN, Please re-enter: ");
+        ssn = input.next();
+        return ssn;
+    }
+    
+
+    
+    
+    /**
+     * A static method for setting employee objects at program run time
+     * @return a reference to an employee object. it needs to be saved to
+     * a object or it will be lost.
+     */
+    public Employee getUserInputForEmployee(){
+        Employee result = new Employee();
+        
+        System.out.println("\nplease Enter the First and Last name of the new "+
+                "employee you wish to add: ");
+        result.setFirstName(input.next());
+        result.setLastName(input.next());
+        System.out.println();
+        System.out.println("please Enter the social security number in the"+
+                " following format: AAA-GG-SSS");
+        result.setSocialSecurityNumber(input.next());
+        
+        return result;       
+    }
+    
+}// end class employee
+
+class CommissionEmployee extends Employee{
+    private double grossSales; // gross weekly sales       
+    private double commissionRate; // commission percentage
+    public static ArrayList<CommissionEmployee> commissionEmployeeList = 
+            new ArrayList<CommissionEmployee>();
+    
+    /**
+     * no argument constructor to set object defaults and guarantees the object
+     * will still get created even with no arguments passed in
+     */
+    CommissionEmployee(){
+        super();
+        this.grossSales = 0.0;
+        this.commissionRate = 0.0;        
+    }// end no argument constructor
+    
+    /**
+     * Overloaded constructor that calls the superclass constructor to set the 
+     * name and social security numbers of the employee
+     * @param f is the first name as a string or literal
+     * @param l is the last name as a string or literal
+     * @param ssn is a string representation of a social security number
+     * @param commisionRate is the commission rate of the employee as decimal
+     * @param grossSales this is the total sales an employee has produced
+     * 
+     */
+    CommissionEmployee(final String f, final String l, final String ssn,
+            double  _commissionRate,  double _grossSales){
+        super(f, l, ssn);
+             
+        // if the gross sales is negitive catch and let user re-enter
+        while(validateGrossSales(_grossSales)==false){
+            _grossSales = fixGrossSale(_grossSales);    
+        }
+        // if commision rate is out of bounds catch and let user re-enter
+        while(validateCommissionRate(_commissionRate)==false) {
+            _commissionRate = fixCommissionRate(_commissionRate);
+        }  
+        this.commissionRate = _commissionRate;
+        this.grossSales = _grossSales;
+
+    }// end overloaded constructor
+    
+    /**
+     * sets the grossSales instance variable of the employee
+     * @param _grossSales is the amount the employee has made before taxes
+     */
+    public void setGrossSales(double _grossSales) {
+      while(validateGrossSales(_grossSales) == false) {
+          _grossSales = fixGrossSale(_grossSales);
+      }
+      this.grossSales = _grossSales;
+    }// end setGrossSales method
+    
+    /**
+     * sets the commissionRate instance variable of the employee as a decimal so
+     * a commission rate of 7.5% in decimal form is .075
+     * @param _commissionRate is the decimal representation of the employees 
+     * commission percentage
+     * @throws IllegalArgumentException must be between 0 and 1 inclusively 
+     */
+    public void setCommissionRate(double _commissionRate) {
+      while(validateCommissionRate(_commissionRate) == false) {
+          _commissionRate = fixCommissionRate(_commissionRate);
+      }
+      this.commissionRate = _commissionRate;
+    }//end method setCommissionRate
+    
+    /**
+     * @return the gross sales amount
+     */
+    public double getGrossSales() {return grossSales;}
+    
+    /**
+     * @return the commissionRate
+     */
+    public double getCommissionRate() {return commissionRate;} 
+    
+    /**
+     * @return the calculated earnings for employee
+     */
+    public double earnigs(){return commissionRate * grossSales;}
+    
+    /**
+     * @returns String representation of the commissionEmployee object
+     */
+    @Override
+    public String toString(){
+        return String.format(
+                "%n%s: %s %s%n%s: %s%n%s: %.2f%n%s: %.2f%n%s: %.2f%n",
+                "commission employee",super.getFirstName(),super.getLastName(),
+                "social security number", super.getSocialSecurityNumber(),
+                "gross sales", grossSales,
+                "commission rate", commissionRate,
+                "total earnings", this.earnigs());
+    }
+    
+    /**
+     * prints out the employee info
+     */
+    @Override // this method overrides a superclass method
+    public void printEmployeeInfo(){
+        System.out.println(this.toString());
+    }//end method printEmployeeInfo
+    
+    /**
+     * Method to print out the employees stored in a list
+     * @param list is the Array list you want to print
+     */
+    public static void printCommissionList(ArrayList<CommissionEmployee> list){
+        for(CommissionEmployee elem : list){
+            System.out.println(elem+"\n");
+        }
+    }//end method printList
+    
+    /**
+     * A static method for letting the user set a commission employee object
+     * @return a reference to an employee object. it needs to be saved to
+     * a new location or it will be lost.
+     */
+    public CommissionEmployee getUserInputForEmployee(){
+        CommissionEmployee result = new CommissionEmployee();
+        
+        System.out.println("\nplease Enter the First and Last name of the new "+
+                "employee you wish to add: ");
+        result.setFirstName(input.next());
+        result.setLastName(input.next());
+        
+        System.out.print("please Enter the social security number in the"+
+                " following format: AAA-GG-SSS: ");
+        result.setSocialSecurityNumber(input.next());
+        
+        System.out.print("please Enter the commission rate as a decimal: ");
+        result.setCommissionRate(input.nextDouble());
+        
+        System.out.print("please Enter the gross sales: ");
+        result.setGrossSales(input.nextDouble());
+        
+        return result;       
+    }
+    
+    /**
+     * method for checking if the gross sales input is valid
+     * @param gs is a double representing the total gross sales of an employee
+     * and must be a non negative value
+     * @return true or false
+     */
+    private boolean validateGrossSales(double gs){
+        if (gs < 0.0) {
+            return false;
+        }
+        return true;
+    }//end method validateGrossSales
+    
+    /**
+     * Fixer method that is called when a bad gross sales value is entered 
+     * giving the user another chance to enter a valid gross sale rate
+     * @param gs is the gross sales total
+     * @return the new gross sale 
+     */
+    private double fixGrossSale(double gs){
+        System.out.print("gross sales must be a positive value,"+
+                    " try again: ");
+        gs = input.nextDouble();
+        return gs;
+    }//end method fixGrossSales
+    
+    /**
+     * method for checking if the commission rate is within a valid range
+     * @param ccr is a double decimal value between 0.01 and 1.
+     * @return true or false
+     */
+    private boolean validateCommissionRate( double ccr){
+        if (ccr < 0.0 || ccr >= 1.0) {
+            return false;
+      }
+        return true;
+    }//end method validateCommissionRate
+    
+    /**
+     * Fixer method that is called when bad input values are entered for a
+     * commission rate that will allow the user the chance to enter valid rate
+     * @param ccr commission rate of employee
+     * @return the new commission rate
+     */
+    private double fixCommissionRate(double ccr){
+        System.out.print("Enter a value between .01 and 1.0 for the"+
+                    " commision rate: ");
+        ccr = input.nextDouble();
+        return ccr;
+    }//end method fixCommissionRate
+    
+
+    
+}//end class ComissionEmployee
