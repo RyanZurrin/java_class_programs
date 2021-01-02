@@ -1,9 +1,6 @@
 /**
 *@filename ZurrinRyanEH.java
 *@author Ryan Zurrin
-*@assignment Chapter  Program "Rational Numbers"
-*@due_date Thursday, November 5, 2020, 3:00 PM
-*@description  this is a class for performing arithmetic with fraction numbers.
 */
 import java.util.*;
 import java.util.regex.Matcher;
