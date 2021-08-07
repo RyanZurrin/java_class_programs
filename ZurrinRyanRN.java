@@ -268,7 +268,7 @@ public class ZurrinRyanRN {
         print_original_values_as_string();
         print_reduced_fraction();
         print_lcm();
-        print_decimal();
+        print_decimal(8);
     }
 
      /**
@@ -546,8 +546,8 @@ public class ZurrinRyanRN {
                 result = Rational.divide(l, r);
                 break;
             default:
-                System.out.println("you performed an unsupported opperation");         
-        }        
+                System.out.println("you performed an unsupported opperation");
+        }
         return result;
     }
     /**
@@ -555,16 +555,8 @@ public class ZurrinRyanRN {
      */
     public static void main(String args[])
     {
-        char choice = 'y';
-        char opperation = ' ';
-        int ln, ld, rn, rd;
-        do{
-            System.out.println("enter the first rational number by putting\n"+
-                    "in the numerator then a space followed by the denominator"+
-                    "\nthen ");
-
-	}while(choice == 'y' && choice == 'Y');
-
+		ZurrinRyanRN rn = new ZurrinRyanRN(60, 120);
+		rn.print_all();
 
     }
 }// end class ZurrinRyanRN
